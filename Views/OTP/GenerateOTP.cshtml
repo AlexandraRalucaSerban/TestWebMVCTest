@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "GenerateOTP";
+}
+
+@using (Html.BeginForm("GenerateNumericOTP", "OTP"))
+{
+<body>
+    
+    <table>
+        <tr></tr>
+        <tr>
+            <td>
+                Username
+            </td>
+            <td>
+                <input id="txtUsername" type="text" name="user" value="@ViewBag.usr"/>
+                <input id="btnSubmit" type="submit" value="Genereaza parola" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Data
+            </td>
+            <td>
+                <input type="datetime" name="dataParola" id="txtData" value="@ViewBag.dat" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label(" ")
+            </td>
+            <td>
+                <label id="lblUsername" />
+            </td>
+        </tr>        
+        <tr>
+            <td>
+                Parola
+            </td>
+            <td>
+                <input type="text" name="parola" id="txtParola" value="@ViewBag.otp" />
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.Label(" ")</td>
+        </tr>
+        <tr>
+            <td>@Html.Label(" ")</td>
+            <td>
+                <p id="lblSecunde"></p>
+            </td>
+        </tr>
+    </table>
+</body>
+<script>
+        var seconds = null;
+        var ticker = null;
+            
+        document.getElementById("btnSubmit").addEventListener("click", startTimer());
+
+        function startTimer() {
+            seconds = 31;
+            showUsername();
+            ticker = setInterval(tick, 1000);
+            tick();
+
+        }
+
+        function showUsername() {
+
+            var username = document.getElementById("txtUsername").value;
+            if (document.getElementById("txtUsername").value.length > 0)
+                document.getElementById("lblUsername").innerHTML = "Bun gasit, " + username + "! Parola ta este "
+            else
+                document.getElementById("lblUsername").innerHTML = "";
+        }
+
+        function tick() {
+            seconds--;
+            var secs = seconds;
+
+            if (document.getElementById("txtParola").value != "") {
+                document.getElementById("lblSecunde").style.color = "black";
+                document.getElementById("lblSecunde").innerHTML = "Parola expira in " + secs + " secunde";
+            }
+
+            if (secs == 0 && document.getElementById("txtParola").value != "") {
+
+                document.getElementById("lblSecunde").innerHTML = "Parola a expirat";
+                document.getElementById("lblSecunde").style.color = "red";
+                clearInterval(ticker);
+                document.getElementById("txtParola").value = " ";
+                document.getElementById("txtData").value = " ";
+                document.getElementById("lblUsername").innerHTML = " ";
+            }
+
+        }
+
+
+
+</script>
+}
